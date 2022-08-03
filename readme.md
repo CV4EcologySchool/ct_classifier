@@ -1,4 +1,4 @@
-# Bird detection in aerial images
+# Animal Classification in Camera Trap Images
 
 Example repository for the CV4Ecology 2022 Summer School to train and test deep
 learning models on camera trap images.
