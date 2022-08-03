@@ -23,10 +23,10 @@ class CustomResNet18(nn.Module):
         # replace the very last layer from the original, 1000-class output
         # ImageNet to a new one that outputs num_classes
         last_layer = self.feature_extractor.fc                          # tip: print(self.feature_extractor) to get info on how model is set up
-        num_features = last_layer.num_features
+        in_features = last_layer.in_features                            # number of input dimensions to last (classifier) layer
         self.feature_extractor.fc = nn.Identity()                       # discard last layer...
 
-        self.classifier = nn.Linear(num_features, num_classes)          # ...and create a new one
+        self.classifier = nn.Linear(in_features, num_classes)           # ...and create a new one
     
 
     def forward(self, x):

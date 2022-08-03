@@ -17,8 +17,10 @@ pip install -r requirements.txt
 
 3. Download dataset
 
+**NOTE:** Requires the [azcopy CLI](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to be installed and set up on your machine.
+
 ```bash
-./scripts/download_dataset.sh 
+sh scripts/download_dataset.sh 
 ```
 
 This downloads the [CCT20](https://lila.science/datasets/caltech-camera-traps) subset to the `datasets/CaltechCT` folder.

@@ -5,6 +5,7 @@
     2022 Benjamin Kellenberger
 '''
 
+import os
 import argparse
 import yaml
 import glob
@@ -16,8 +17,8 @@ from torch.utils.data import DataLoader
 from torch.optim import SGD
 
 # let's import our own classes and functions!
-from ct_classifier.dataset import CTDataset
-from ct_classifier.model import CustomResNet18
+from dataset import CTDataset
+from model import CustomResNet18
 
 
 
@@ -26,7 +27,7 @@ def create_dataloader(cfg, split='train'):
         Loads a dataset according to the provided split and wraps it in a
         PyTorch DataLoader object.
     '''
-    dataset_instance = CTDataset(cfg['data_root'], split)        # create an object instance of our CTDataset class
+    dataset_instance = CTDataset(cfg, split)        # create an object instance of our CTDataset class
 
     dataLoader = DataLoader(
             dataset=dataset_instance,
@@ -66,6 +67,9 @@ def load_model(cfg):
 
 
 def save_model(epoch, model, stats):
+    # make sure save directory exists; create if not
+    os.makedirs('model_states', exist_ok=True)
+
     # get model parameters and add to stats...
     stats['model'] = model.state_dict()
 
@@ -100,11 +104,11 @@ def train(cfg, dataLoader, model, optimizer):
     criterion = nn.CrossEntropyLoss()
 
     # running averages
-    loss_total, oa_total = 0.0, 0.0     # for now, we just log the loss and overall accuracy (OA)
+    loss_total, oa_total = 0.0, 0.0                         # for now, we just log the loss and overall accuracy (OA)
 
     # iterate over dataLoader
     progressBar = trange(len(dataLoader))
-    for idx, (data, labels) in enumerate(dataLoader):
+    for idx, (data, labels) in enumerate(dataLoader):       # see the last line of file "dataset.py" where we return the image tensor (data) and label
 
         # put data and labels on device
         data, labels = data.to(device), labels.to(device)
@@ -125,18 +129,19 @@ def train(cfg, dataLoader, model, optimizer):
         optimizer.step()
 
         # log statistics
-        loss_total += loss.item()           # the .item() command retrieves the value of a single-valued tensor, regardless of its data type and device of tensor
+        loss_total += loss.item()                       # the .item() command retrieves the value of a single-valued tensor, regardless of its data type and device of tensor
 
-        pred_label = torch.argmax(prediction)           # the predicted label is the one at position (class index) with highest predicted value
+        pred_label = torch.argmax(prediction, dim=1)    # the predicted label is the one at position (class index) with highest predicted value
         oa = torch.mean((pred_label == labels).float()) # OA: number of correct predictions divided by batch size (i.e., average/mean)
         oa_total += oa.item()
 
         progressBar.set_description(
-            '[Train] Loss: {:.2f}; OA: {:.2f}'.format(
+            '[Train] Loss: {:.2f}; OA: {:.2f}%'.format(
                 loss_total/(idx+1),
-                oa_total/(idx+1)
+                100*oa_total/(idx+1)
             )
         )
+        progressBar.update(1)
     
     # end of epoch; finalize
     progressBar.close()
@@ -179,16 +184,17 @@ def validate(cfg, dataLoader, model):
             # log statistics
             loss_total += loss.item()
 
-            pred_label = torch.argmax(prediction)
+            pred_label = torch.argmax(prediction, dim=1)
             oa = torch.mean((pred_label == labels).float())
             oa_total += oa.item()
 
             progressBar.set_description(
-                '[Val ] Loss: {:.2f}; OA: {:.2f}'.format(
+                '[Val ] Loss: {:.2f}; OA: {:.2f}%'.format(
                     loss_total/(idx+1),
-                    oa_total/(idx+1)
+                    100*oa_total/(idx+1)
                 )
             )
+            progressBar.update(1)
     
     # end of epoch; finalize
     progressBar.close()
