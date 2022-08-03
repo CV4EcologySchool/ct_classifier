@@ -1,0 +1,17 @@
+# Here's where you define experiment-specific hyperparameters.
+# You can also create lists and group parameters together into nested sub-parts.
+# In Python, this is all read as a dict.
+
+# environment/computational parameters
+device: CUDA
+num_workers: 4
+
+# dataset parameters
+data_root: /path/to/dataset
+num_classes: 32
+
+# training hyperparameters
+num_epochs: 200
+batch_size: 128
+learning_rate: 1e-3
+weight_decay: 1e-3
