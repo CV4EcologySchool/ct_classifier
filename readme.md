@@ -1,7 +1,7 @@
 # Animal Classification in Camera Trap Images
 
 Example repository for the CV4Ecology 2022 Summer School to train and test deep
-learning models on camera trap images.
+learning models on camera trap images, using the [CCT20 dataset](https://lila.science/datasets/caltech-camera-traps).
 
 ## Installation instructions
 
