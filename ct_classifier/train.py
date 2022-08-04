@@ -99,6 +99,9 @@ def train(cfg, dataLoader, model, optimizer):
 
     # put model on device
     model.to(device)
+    
+    # put the model into training mode
+    model.train()
 
     # loss function
     criterion = nn.CrossEntropyLoss()
@@ -161,6 +164,9 @@ def validate(cfg, dataLoader, model):
     device = cfg['device']
     model.to(device)
 
+    # put the model into evaluation mode
+    model.eval()
+    
     criterion = nn.CrossEntropyLoss()   # we still need a criterion to calculate the validation loss
 
     # running averages
