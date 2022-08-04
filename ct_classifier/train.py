@@ -101,6 +101,8 @@ def train(cfg, dataLoader, model, optimizer):
     model.to(device)
     
     # put the model into training mode
+    # this is required for some layers that behave differently during training
+    # and validation (examples: Batch Normalization, Dropout, etc.)
     model.train()
 
     # loss function
@@ -165,6 +167,7 @@ def validate(cfg, dataLoader, model):
     model.to(device)
 
     # put the model into evaluation mode
+    # see lines 103-106 above
     model.eval()
     
     criterion = nn.CrossEntropyLoss()   # we still need a criterion to calculate the validation loss
