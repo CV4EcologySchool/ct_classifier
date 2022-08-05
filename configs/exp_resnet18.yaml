@@ -3,6 +3,7 @@
 # In Python, this is all read as a dict.
 
 # environment/computational parameters
+seed: 32678456782       # random number generator seed (long integer value)
 device: cuda
 num_workers: 4
 

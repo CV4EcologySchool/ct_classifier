@@ -17,6 +17,7 @@ from torch.utils.data import DataLoader
 from torch.optim import SGD
 
 # let's import our own classes and functions!
+from util import init_seed
 from dataset import CTDataset
 from model import CustomResNet18
 
@@ -231,6 +232,9 @@ def main():
     # load config
     print(f'Using config "{args.config}"')
     cfg = yaml.safe_load(open(args.config, 'r'))
+
+    # init random number generator seed (set at the start)
+    init_seed(cfg.get('seed', None))
 
     # check if GPU is available
     device = cfg['device']
