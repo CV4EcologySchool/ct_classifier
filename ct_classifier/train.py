@@ -66,7 +66,7 @@ def load_model(cfg):
 
 
 
-def save_model(epoch, model, stats):
+def save_model(cfg, epoch, model, stats):
     # make sure save directory exists; create if not
     os.makedirs('model_states', exist_ok=True)
 
@@ -75,8 +75,14 @@ def save_model(epoch, model, stats):
 
     # ...and save
     torch.save(stats, open(f'model_states/{epoch}.pt', 'wb'))
+    
+    # also save config file if not present
+    cfpath = 'model_states/config.yaml'
+    if not os.path.exists(cfpath):
+        with open(cfpath, 'w') as f:
+            yaml.dump(cfg, f)
 
-
+            
 
 def setup_optimizer(cfg, model):
     '''
@@ -258,7 +264,7 @@ def main():
             'oa_train': oa_train,
             'oa_val': oa_val
         }
-        save_model(current_epoch, model, stats)
+        save_model(cfg, current_epoch, model, stats)
     
 
     # That's all, folks!
