@@ -9,9 +9,12 @@ learning models on camera trap images, using the [CCT20 dataset](https://lila.sc
 
 2. Create environment and install requirements
 
+You will need to install the proper version of PyTorch and torchvision for your CUDA version. The 2023 cohort should use the following. If you are using a different machine than the 2023 cohort, replace the `pip install torch=.....` command below with the appropriate one from [here](https://pytorch.org/get-started/locally/).
+
 ```bash
-conda create -n cv4ecology python=3.8 -y
+conda create -n cv4ecology python=3.9 -y
 conda activate cv4ecology
+pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 ```
 
