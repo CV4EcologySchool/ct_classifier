@@ -4,8 +4,8 @@
 
 # environment/computational parameters
 seed: 32678456782       # random number generator seed (long integer value)
-device: cuda
-num_workers: 4
+device: cuda            # if you have multiple GPU's, you can use 'cude:4' to specify which GPU to run on, e.g., the 4th
+num_workers: 4          # number of CPU cores that load data in parallel. You can set this to the number of logical CPU cores that you have. 
 
 # dataset parameters
 data_root: datasets/CaltechCT
@@ -13,7 +13,7 @@ num_classes: 16
 
 # training hyperparameters
 image_size: [224, 224]
-num_epochs: 200
-batch_size: 128
-learning_rate: 0.001
-weight_decay: 0.001
+num_epochs: 200         # number of epochs. Each epoch has multiple iterations. In each epoch the model goes over the full dataset once.
+batch_size: 128         # number of images that are processed in parallel in every iteration
+learning_rate: 0.001    # hyperparameter to adjust the optimizer's learning rate 
+weight_decay: 0.001     # hyperparameter for regularization
