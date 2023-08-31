@@ -11,10 +11,10 @@ import yaml
 import glob
 from tqdm import trange
 
-import torch
-import torch.nn as nn
-from torch.utils.data import DataLoader
-from torch.optim import SGD
+import torch # this imports pytorch
+import torch.nn as nn # this contains our loss function 
+from torch.utils.data import DataLoader # the pytorch dataloader class will take care of all kind of parallelization during training
+from torch.optim import SGD # this imports the optimizer
 
 # let's import our own classes and functions!
 from util import init_seed
@@ -113,6 +113,7 @@ def train(cfg, dataLoader, model, optimizer):
     model.train()
 
     # loss function
+    #  note: if you're doing multi target classification, use nn.BCEWithLogitsLoss() and convert labels to float
     criterion = nn.CrossEntropyLoss()
 
     # running averages
