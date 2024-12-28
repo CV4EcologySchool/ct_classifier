@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 3. Download dataset
 
-**NOTE:** Requires the [azcopy CLI](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to be installed and set up on your machine.
+**NOTE:** Downloads 6GB of image data, make sure you have enough space before running this.
 
 ```bash
 sh scripts/download_dataset.sh 
